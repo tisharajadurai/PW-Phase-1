@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADHD & ASD Assessment - SRM Valliammai</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+.header {
+    background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
+    color: white;
+    padding: 20px 40px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.header h1 { font-size: 28px; margin-bottom: 5px; }
+.header h2 { font-size: 20px; margin-top: 10px; }
+
+.nav-tabs {
+    background: white;
+    padding: 0 40px;
+    display: flex;
+    gap: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-tab {
+    padding: 15px 30px;
+    background: #e9ecef;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.nav-tab.active {
+    background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
+    color: white;
+}
+
+.nav-tab:hover:not(.active) { background: #dee2e6; }
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.step-card {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: none;
+}
+
+.step-card.active { display: block; }
+
+.step-title {
+    color: #0066cc;
+    font-size: 24px;
+    margin-bottom: 30px;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #0066cc;
+}
+
+.question-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-left: 4px solid #0066cc;
+}
+
+.question-text {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option-label {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.option-label:hover {
+    border-color: #0066cc;
+    background: #f0f8ff;
+}
+
+.option-label input[type="radio"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.cpt-container {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.cpt-instructions {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.cpt-instructions h3 {
+    color: #856404;
+    margin-bottom: 15px;
+}
+
+.cpt-instructions ul {
+    margin-left: 20px;
+    color: #856404;
+}
+
+.cpt-instructions li {
+    margin-bottom: 8px;
+}
+
+.stimulus-display {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 30px;
+    background: white;
+    border: 3px solid #0066cc;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    font-weight: bold;
+    color: #0066cc;
+}
+
+.cpt-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.stat-box {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+}
+
+.stat-box h4 {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.stat-box .stat-value {
+    color: #0066cc;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.btn-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.4);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+.btn:disabled {
+    background: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+.progress-container {
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0066cc 0%, #00aaff 100%);
+    transition: width 0.3s;
+}
+
+.progress-text {
+    text-align: center;
+    margin-top: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.results-container {
+    text-align: center;
+}
+
+.result-card {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 2px solid #0066cc;
+}
+
+.result-card h3 {
+    color: #0066cc;
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.result-card .score {
+    font-size: 48px;
+    font-weight: bold;
+    color: #0066cc;
+    margin: 20px 0;
+}
+
+.result-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.comorbidity-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+}
+
+.comorbidity-card h3 {
+    color: white;
+}
+
+.comorbidity-card .score {
+    color: white;
+}
+
+.comorbidity-card p {
+    color: rgba(255,255,255,0.9);
+}
+
+.shap-explanation {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.shap-explanation h4 {
+    color: #0066cc;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.shap-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #0066cc;
+}
+
+.shap-feature {
+    font-weight: 600;
+    color: #333;
+}
+
+.shap-impact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.shap-bar {
+    width: 100px;
+    height: 20px;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.shap-bar-fill {
+    height: 100%;
+    transition: width 0.3s;
+}
+
+.shap-bar-fill.positive {
+    background: linear-gradient(90deg, #28a745, #20c997);
+}
+
+.shap-bar-fill.negative {
+    background: linear-gradient(90deg, #dc3545, #fd7e14);
+}
+
+.loading-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-overlay.active {
+    display: flex;
+}
+
+.loading-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #e9ecef;
+    border-top: 5px solid #0066cc;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.footer {
+    background: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: 40px;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+}
+
+.footer p {
+    color: #dc3545;
+    font-size: 14px;
+}
+
+.confidence-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.confidence-high {
+    background: #d4edda;
+    color: #155724;
+}
+
+.confidence-medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.confidence-low {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.history-container {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.history-item {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #e9ecef;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.history-item:hover {
+    border-color: #0066cc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.history-date {
+    color: #666;
+    font-size: 14px;
+}
+
+.history-results {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.history-badge {
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-positive {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.badge-negative {
+    background: #d4edda;
+    color: #155724;
+}
+
+.empty-history {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.empty-history-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    opacity: 0.3;
+}
+
+.probability-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.probability-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.probability-box h4 {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.probability-value {
+    font-size: 36px;
+    font-weight: bold;
+    color: #0066cc;
+}
+
+.probability-box.comorbidity .probability-value {
+    color: #764ba2;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>ADHD & ASD Assessment Platform</h1>
+    <h2>SRM Valliammai Engineering College - AI-Powered Diagnostics with SHAP Explainability</h2>
+</div>
+
+<div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('assessment')">📋 Take Assessment</button>
+    <button class="nav-tab" onclick="switchTab('history')">📊 History</button>
+</div>
+
+<div class="container">
+    <!-- Assessment Section -->
+    <div id="assessmentSection">
+        <!-- Step 1: User Details -->
+        <div class="step-card active" id="step1">
+            <h2 class="step-title">Step 1: User Details</h2>
+            
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" id="userName" placeholder="Enter full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Age:</label>
+                <input type="number" id="userAge" placeholder="Enter age" min="1" max="100" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Gender:</label>
+                <select id="userGender" required>
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Relation:</label>
+                <select id="userRelation" required>
+                    <option value="">Select relation</option>
+                    <option value="Self">Self</option>
+                    <option value="Parent">Parent</option>
+                    <option value="Guardian">Guardian</option>
+                    <option value="Clinician">Clinician</option>
+                    <option value="Teacher">Teacher</option>
+                </select>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn btn-primary" onclick="validateAndNext(1)">Next: AQ-10 Questionnaire</button>
+            </div>
+        </div>
+        
+        <!-- Step 2: AQ-10 Questionnaire -->
+        <div class="step-card" id="step2">
+            <h2 class="step-title">Step 2: AQ-10 Questionnaire (Autism Spectrum)</h2>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="aq10Progress" style="width: 0%"></div>
+                </div>
+                <div class="progress-text" id="aq10ProgressText">Question 0 of 10</div>
+            </div>
+            
+            <div id="aq10Questions"></div>
+            
+            <div class="btn-container">
+                <button class="btn btn-secondary" onclick="showStep(1)">Back</button>
+                <button class="btn btn-primary" onclick="validateAndNext(2)">Next: CPT Test</button>
+            </div>
+        </div>
+        
+        <!-- Step 3: CPT Test -->
+        <div class="step-card" id="step3">
+            <h2 class="step-title">Step 3: Continuous Performance Test (CPT) - 1 Minute</h2>
+            
+            <div class="cpt-container">
+                <div class="cpt-instructions" id="cptInstructions">
+                    <h3>⚠️ Instructions:</h3>
+                    <ul>
+                        <li>You will see letters appear on the screen one at a time</li>
+                        <li>Press the SPACEBAR only when you see the letter 'X'</li>
+                        <li>Do NOT press for any other letters</li>
+                        <li><strong>The test will run for 1 MINUTE (60 seconds)</strong></li>
+                        <li>Try to respond as quickly and accurately as possible</li>
+                        <li>Click "Start Test" when you're ready</li>
+                    </ul>
+                </div>
+                
+                <div style="display: none;" id="cptTestArea">
+                    <div class="stimulus-display" id="stimulusDisplay">+</div>
+                    
+                    <div class="cpt-stats">
+                        <div class="stat-box">
+                            <h4>Time Remaining</h4>
+                            <div class="stat-value" id="timeRemaining">1:00</div>
+                        </div>
+                        <div class="stat-box">
+                            <h4>Correct Responses</h4>
+                            <div class="stat-value" id="correctCount">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <h4>Errors</h4>
+                            <div class="stat-value" id="errorCount">0</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="btn-container">
+                    <button class="btn btn-secondary" onclick="showStep(2)">Back</button>
+                    <button class="btn btn-primary" id="cptStartBtn" onclick="startCPT()">Start Test</button>
+                    <button class="btn btn-primary" id="cptNextBtn" style="display: none;" onclick="submitToBackend()">Analyze Results with AI</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 4: Results -->
+        <div class="step-card" id="step4">
+            <h2 class="step-title">AI-Powered Assessment Results with Explainability</h2>
+            
+            <div class="results-container">
+                <!-- Probability Summary -->
+                <div class="result-card">
+                    <h3>📊 Probability Summary</h3>
+                    <div class="probability-grid">
+                        <div class="probability-box">
+                            <h4>ADHD Probability</h4>
+                            <div class="probability-value" id="adhdProbDisplay">-</div>
+                        </div>
+                        <div class="probability-box">
+                            <h4>ASD Probability</h4>
+                            <div class="probability-value" id="asdProbDisplay">-</div>
+                        </div>
+                        <div class="probability-box comorbidity">
+                            <h4>Comorbidity Probability</h4>
+                            <div class="probability-value" id="comorbidityProbDisplay">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADHD Results -->
+                <div class="result-card">
+                    <h3>🧠 ADHD Assessment</h3>
+                    <div class="score" id="adhdPrediction">-</div>
+                    <p><strong>Probability:</strong> <span id="adhdProbability">-</span></p>
+                    <div id="adhdConfidence"></div>
+                    
+                    <div class="shap-explanation">
+                        <h4>📊 SHAP Explainability - Why this prediction?</h4>
+                        <p style="margin-bottom: 15px; color: #666;">These factors contributed most to the ADHD assessment:</p>
+                        <div id="adhdShapItems"></div>
+                    </div>
+                </div>
+                
+                <!-- ASD Results -->
+                <div class="result-card">
+                    <h3>🎯 ASD Assessment</h3>
+                    <div class="score" id="asdPrediction">-</div>
+                    <p><strong>Probability:</strong> <span id="asdProbability">-</span></p>
+                    <div id="asdConfidence"></div>
+                    
+                    <div class="shap-explanation">
+                        <h4>📊 SHAP Explainability - Why this prediction?</h4>
+                        <p style="margin-bottom: 15px; color: #666;">These factors contributed most to the ASD assessment:</p>
+                        <div id="asdShapItems"></div>
+                    </div>
+                </div>
+
+                <!-- Comorbidity Results -->
+                <div class="result-card comorbidity-card">
+                    <h3>🔗 Comorbidity Assessment</h3>
+                    <div class="score" id="comorbidityScore">-</div>
+                    <p id="comorbidityInterpretation"></p>
+                </div>
+                
+                <!-- Overall Interpretation -->
+                <div class="result-card">
+                    <h3>📋 Overall Interpretation</h3>
+                    <p id="overallInterpretation"></p>
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn btn-secondary" onclick="resetAssessment()">New Assessment</button>
+                <button class="btn btn-primary" onclick="downloadResults()">Download Report</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Section -->
+    <div id="historySection" style="display: none;">
+        <div class="step-card active">
+            <h2 class="step-title">Assessment History</h2>
+            <div class="history-container" id="historyContainer">
+                <div class="empty-history">
+                    <div class="empty-history-icon">📋</div>
+                    <h3>No assessments yet</h3>
+                    <p>Take your first assessment to see results here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-content">
+        <div class="spinner"></div>
+        <h3>Analyzing with AI...</h3>
+        <p>Generating SHAP explanations and calculating comorbidity</p>
+    </div>
+</div>
+
+<div class="footer">
+    <p>Copyright © 2025 Dhivya S S, Deepasree R S, Tisha R, Department of AI&DS, SRM Valliammai Engineering College. All Rights Reserved.</p>
+</div>
+
+<script>
+const API_URL = 'http://localhost:5000';
+
+const aq10Questions = [
+    "I often notice small sounds when others do not.",
+    "I usually concentrate more on the whole picture, rather than small details.",
+    "I find it easy to do more than one thing at once.",
+    "If there is an interruption, I can switch back to what I was doing very quickly.",
+    "I find it easy to 'read between the lines' when someone is talking to me.",
+    "I know how to tell if someone listening to me is getting bored.",
+    "When I'm reading a story, I find it difficult to work out the characters' intentions.",
+    "I like to collect information about categories of things.",
+    "I find it easy to work out what someone is thinking or feeling just by looking at their face.",
+    "I find it difficult to work out people's intentions."
+];
+
+let currentStep = 1;
+let cptRunning = false;
+let cptTimer;
+let cptStimuli = [];
+let cptCurrentStimulus = 0;
+let cptCorrect = 0;
+let cptErrors = 0;
+let cptMissed = 0;
+let cptReactionTimes = [];
+let cptTimeLeft = 60;
+let cptStartTime = 0;
+let backendResults = null;
+let assessmentHistory = [];
+
+// Tab switching
+function switchTab(tab) {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    
+    if (tab === 'assessment') {
+        event.target.classList.add('active');
+        document.getElementById('assessmentSection').style.display = 'block';
+        document.getElementById('historySection').style.display = 'none';
+    } else if (tab === 'history') {
+        event.target.classList.add('active');
+        document.getElementById('assessmentSection').style.display = 'none';
+        document.getElementById('historySection').style.display = 'block';
+        loadHistory();
+    }
+}
+
+// Initialize AQ-10 Questions
+function initializeAQ10() {
+    const container = document.getElementById('aq10Questions');
+    container.innerHTML = '';
+    
+    aq10Questions.forEach((question, index) => {
+        const questionCard = document.createElement('div');
+        questionCard.className = 'question-card';
+        questionCard.innerHTML = `
+            <div class="question-text">${index + 1}. ${question}</div>
+            <div class="options">
+                <label class="option-label">
+                    <input type="radio" name="aq10_${index}" value="1" onchange="updateAQ10Progress()">
+                    Definitely Agree
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="aq10_${index}" value="1" onchange="updateAQ10Progress()">
+                    Slightly Agree
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="aq10_${index}" value="0" onchange="updateAQ10Progress()">
+                    Slightly Disagree
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="aq10_${index}" value="0" onchange="updateAQ10Progress()">
+                    Definitely Disagree
+                </label>
+            </div>
+        `;
+        container.appendChild(questionCard);
+    });
+}
+
+function updateAQ10Progress() {
+    let answered = 0;
+    for (let i = 0; i < 10; i++) {
+        if (document.querySelector(`input[name="aq10_${i}"]:checked`)) {
+            answered++;
+        }
+    }
+    const progress = (answered / 10) * 100;
+    document.getElementById('aq10Progress').style.width = progress + '%';
+    document.getElementById('aq10ProgressText').textContent = `Question ${answered} of 10`;
+}
+
+function showStep(step) {
+    document.querySelectorAll('.step-card').forEach(card => {
+        card.classList.remove('active');
+    });
+    document.getElementById('step' + step).classList.add('active');
+    currentStep = step;
+    
+    if (step === 2 && document.getElementById('aq10Questions').children.length === 0) {
+        initializeAQ10();
+    }
+}
+
+function validateAndNext(step) {
+    if (step === 1) {
+        const name = document.getElementById('userName').value;
+        const age = document.getElementById('userAge').value;
+        const gender = document.getElementById('userGender').value;
+        const relation = document.getElementById('userRelation').value;
+        
+        if (!name || !age || !gender || !relation) {
+            alert('Please fill in all fields before proceeding.');
+            return;
+        }
+        showStep(2);
+    } else if (step === 2) {
+        let allAnswered = true;
+        for (let i = 0; i < 10; i++) {
+            if (!document.querySelector(`input[name="aq10_${i}"]:checked`)) {
+                allAnswered = false;
+                break;
+            }
+        }
+        if (!allAnswered) {
+            alert('Please answer all 10 questions before proceeding.');
+            return;
+        }
+        showStep(3);
+    }
+}
+
+// CPT Test Functions
+function startCPT() {
+    document.getElementById('cptInstructions').style.display = 'none';
+    document.getElementById('cptTestArea').style.display = 'block';
+    document.getElementById('cptStartBtn').style.display = 'none';
+    
+    cptRunning = true;
+    cptCorrect = 0;
+    cptErrors = 0;
+    cptMissed = 0;
+    cptTimeLeft = 60;
+    cptReactionTimes = [];
+    
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z'];
+    cptStimuli = [];
+    for (let i = 0; i < 60; i++) {
+        if (Math.random() < 0.2) {
+            cptStimuli.push('X');
+        } else {
+            cptStimuli.push(letters[Math.floor(Math.random() * letters.length)]);
+        }
+    }
+    
+    cptCurrentStimulus = 0;
+    runCPTTrial();
+    startCPTTimer();
+    
+    document.addEventListener('keydown', handleCPTResponse);
+}
+
+function runCPTTrial() {
+    if (!cptRunning || cptCurrentStimulus >= cptStimuli.length) {
+        endCPT();
+        return;
+    }
+    
+    const stimulus = cptStimuli[cptCurrentStimulus];
+    document.getElementById('stimulusDisplay').textContent = stimulus;
+    cptStartTime = Date.now();
+    
+    setTimeout(() => {
+        if (cptRunning) {
+            if (stimulus === 'X' && cptStartTime > 0) {
+                cptMissed++;
+                document.getElementById('errorCount').textContent = cptErrors + cptMissed;
+            }
+            cptCurrentStimulus++;
+            runCPTTrial();
+        }
+    }, 1000);
+}
+
+function handleCPTResponse(e) {
+    if (!cptRunning || e.key !== ' ') return;
+    e.preventDefault();
+    
+    const reactionTime = Date.now() - cptStartTime;
+    const stimulus = cptStimuli[cptCurrentStimulus];
+    
+    if (stimulus === 'X' && cptStartTime > 0) {
+        cptCorrect++;
+        cptReactionTimes.push(reactionTime);
+        document.getElementById('correctCount').textContent = cptCorrect;
+        cptStartTime = 0;
+    } else if (stimulus !== 'X') {
+        cptErrors++;
+        document.getElementById('errorCount').textContent = cptErrors + cptMissed;
+    }
+}
+
+function startCPTTimer() {
+    cptTimer = setInterval(() => {
+        cptTimeLeft--;
+        const seconds = cptTimeLeft;
+        document.getElementById('timeRemaining').textContent = `0:${seconds.toString().padStart(2, '0')}`;
+        
+        if (cptTimeLeft <= 0) {
+            endCPT();
+        }
+    }, 1000);
+}
+
+function endCPT() {
+    cptRunning = false;
+    clearInterval(cptTimer);
+    document.removeEventListener('keydown', handleCPTResponse);
+    document.getElementById('cptNextBtn').style.display = 'inline-block';
+    document.getElementById('stimulusDisplay').textContent = '✓';
+    alert('CPT Test Complete! Click "Analyze Results with AI" to see your assessment.');
+}
+
+// Backend Integration
+async function submitToBackend() {
+    document.getElementById('loadingOverlay').classList.add('active');
+    
+    try {
+        const assessmentData = {
+            name: document.getElementById('userName').value,
+            age: parseInt(document.getElementById('userAge').value),
+            gender: document.getElementById('userGender').value,
+            relation: document.getElementById('userRelation').value,
+            aq10_answers: {},
+            cpt_data: {
+                accuracy: calculateCPTAccuracy(),
+                avg_reaction_time: calculateAvgRT(),
+                errors: cptErrors,
+                missed: cptMissed,
+                correct: cptCorrect,
+                total_x: cptStimuli.filter(s => s === 'X').length
+            }
+        };
+        
+        for (let i = 0; i < 10; i++) {
+            const answer = document.querySelector(`input[name="aq10_${i}"]:checked`);
+            assessmentData.aq10_answers[i] = answer ? parseInt(answer.value) : 0;
+        }
+        
+        const response = await fetch(`${API_URL}/api/assess`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(assessmentData)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status}`);
+        }
+        
+        backendResults = await response.json();
+        
+        displayBackendResults(backendResults);
+        
+        await saveAssessment(backendResults);
+        
+        document.getElementById('loadingOverlay').classList.remove('active');
+        showStep(4);
+        
+    } catch (error) {
+        console.error('Backend error:', error);
+        document.getElementById('loadingOverlay').classList.remove('active');
+        
+        const msg = error.message.includes('Failed to fetch')
+            ? 'Cannot connect to AI server. Is it running on http://localhost:5000?'
+            : `AI Analysis failed: ${error.message}`;
+        
+        alert(msg + '\n\nCheck console for details.');
+    }
+}
+
+function calculateCPTAccuracy() {
+    const totalX = cptStimuli.filter(s => s === 'X').length;
+    return totalX > 0 ? (cptCorrect / totalX) * 100 : 0;
+}
+
+function calculateAvgRT() {
+    return cptReactionTimes.length > 0 
+        ? cptReactionTimes.reduce((a, b) => a + b, 0) / cptReactionTimes.length
+        : 0;
+}
+
+function displayBackendResults(results) {
+    // Display probabilities
+    const adhdProb = (results.adhd.probability * 100).toFixed(1);
+    const asdProb = (results.asd.probability * 100).toFixed(1);
+    
+    document.getElementById('adhdProbDisplay').textContent = `${adhdProb}%`;
+    document.getElementById('asdProbDisplay').textContent = `${asdProb}%`;
+    
+    // Calculate and display comorbidity
+    const comorbidityProb = calculateComorbidity(results.adhd.probability, results.asd.probability);
+    document.getElementById('comorbidityProbDisplay').textContent = `${comorbidityProb.toFixed(1)}%`;
+    document.getElementById('comorbidityScore').textContent = `${comorbidityProb.toFixed(1)}%`;
+    
+    // Comorbidity interpretation
+    const comorbidityText = getComorbidityInterpretation(comorbidityProb, results.adhd.prediction, results.asd.prediction);
+    document.getElementById('comorbidityInterpretation').textContent = comorbidityText;
+    
+    // ADHD Results
+    const adhdPred = results.adhd.prediction;
+    document.getElementById('adhdPrediction').textContent = adhdPred;
+    document.getElementById('adhdProbability').textContent = `${adhdProb}%`;
+    
+    const adhdConfBadge = getConfidenceBadge(results.adhd.confidence);
+    document.getElementById('adhdConfidence').innerHTML = adhdConfBadge;
+    
+    displaySHAPExplanation('adhdShapItems', results.adhd.shap_explanation);
+    
+    // ASD Results
+    const asdPred = results.asd.prediction;
+    document.getElementById('asdPrediction').textContent = asdPred;
+    document.getElementById('asdProbability').textContent = `${asdProb}%`;
+    
+    const asdConfBadge = getConfidenceBadge(results.asd.confidence);
+    document.getElementById('asdConfidence').innerHTML = asdConfBadge;
+    
+    displaySHAPExplanation('asdShapItems', results.asd.shap_explanation);
+    
+    // Overall interpretation
+    let overall = generateOverallInterpretation(results, comorbidityProb);
+    document.getElementById('overallInterpretation').textContent = overall;
+}
+
+function calculateComorbidity(adhdProb, asdProb) {
+    // Comorbidity probability based on both conditions being present
+    // Using multiplicative model with adjustment factor
+    const comorbidity = adhdProb * asdProb * 100;
+    return Math.min(comorbidity, 100);
+}
+
+function getComorbidityInterpretation(comorbidityProb, adhdPred, asdPred) {
+    if (adhdPred === "Positive" && asdPred === "Positive") {
+        if (comorbidityProb > 50) {
+            return `High comorbidity likelihood (${comorbidityProb.toFixed(1)}%). Both ADHD and ASD traits are present, suggesting possible co-occurrence. Comprehensive evaluation recommended.`;
+        } else {
+            return `Moderate comorbidity likelihood (${comorbidityProb.toFixed(1)}%). Both conditions show positive indicators but may be independent. Professional assessment needed.`;
+        }
+    } else if (adhdPred === "Positive" || asdPred === "Positive") {
+        return `Low comorbidity likelihood (${comorbidityProb.toFixed(1)}%). Only one condition shows positive indicators. Focus on single condition assessment.`;
+    } else {
+        return `Minimal comorbidity likelihood (${comorbidityProb.toFixed(1)}%). Neither condition shows strong positive indicators at this time.`;
+    }
+}
+
+function displaySHAPExplanation(containerId, shapData) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    
+    const topFeatures = shapData.slice(0, 5);
+    
+    topFeatures.forEach(item => {
+        const absImpact = Math.abs(item.impact);
+        const maxImpact = Math.max(...shapData.map(d => Math.abs(d.impact)));
+        const percentage = (absImpact / maxImpact) * 100;
+        
+        const shapItem = document.createElement('div');
+        shapItem.className = 'shap-item';
+        shapItem.innerHTML = `
+            <div>
+                <div class="shap-feature">${item.feature}</div>
+                <div style="font-size: 12px; color: #666;">Value: ${item.value.toFixed(2)}</div>
+            </div>
+            <div class="shap-impact">
+                <div class="shap-bar">
+                    <div class="shap-bar-fill ${item.impact > 0 ? 'positive' : 'negative'}" 
+                         style="width: ${percentage}%"></div>
+                </div>
+                <span style="font-size: 12px; color: #666;">
+                    ${item.direction} risk
+                </span>
+            </div>
+        `;
+        container.appendChild(shapItem);
+    });
+}
+
+function getConfidenceBadge(confidence) {
+    let badgeClass = 'confidence-low';
+    let label = 'Low Confidence';
+    
+    if (confidence > 0.7) {
+        badgeClass = 'confidence-high';
+        label = 'High Confidence';
+    } else if (confidence > 0.4) {
+        badgeClass = 'confidence-medium';
+        label = 'Medium Confidence';
+    }
+    
+    return `<span class="confidence-badge ${badgeClass}">${label} (${(confidence * 100).toFixed(1)}%)</span>`;
+}
+
+function generateOverallInterpretation(results, comorbidityProb) {
+    const adhdPositive = results.adhd.prediction === "Positive";
+    const asdPositive = results.asd.prediction === "Positive";
+    
+    if (adhdPositive && asdPositive) {
+        return `The AI assessment indicates potential traits of both ADHD and ASD with a comorbidity probability of ${comorbidityProb.toFixed(1)}%. The SHAP analysis shows which specific factors contributed to each prediction. Comprehensive professional evaluation is strongly recommended for accurate diagnosis and personalized intervention planning, especially given the potential co-occurrence of both conditions.`;
+    } else if (adhdPositive) {
+        return `The AI assessment primarily indicates potential attention difficulties consistent with ADHD. Comorbidity probability is low (${comorbidityProb.toFixed(1)}%). The SHAP explanation highlights the key factors contributing to this assessment. Professional evaluation is recommended to confirm and develop appropriate support strategies.`;
+    } else if (asdPositive) {
+        return `The AI assessment primarily indicates potential autism spectrum traits. Comorbidity probability is low (${comorbidityProb.toFixed(1)}%). The SHAP analysis identifies the most influential factors in this prediction. Professional evaluation is recommended for comprehensive assessment and guidance.`;
+    } else {
+        return `The AI assessment results suggest typical developmental patterns with minimal comorbidity risk (${comorbidityProb.toFixed(1)}%). However, if you have ongoing concerns about behavior, attention, or social interaction, please consult with a healthcare professional. This screening tool is not a substitute for clinical diagnosis.`;
+    }
+}
+
+async function saveAssessment(results) {
+    try {
+        const assessmentRecord = {
+            timestamp: new Date().toISOString(),
+            name: document.getElementById('userName').value,
+            age: parseInt(document.getElementById('userAge').value),
+            gender: document.getElementById('userGender').value,
+            results: results
+        };
+        
+        const response = await fetch(`${API_URL}/api/save_assessment`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(assessmentRecord)
+        });
+        
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        console.log("Assessment saved successfully");
+    } catch (error) {
+        console.warn('Could not save assessment:', error.message);
+    }
+}
+
+async function loadHistory() {
+    try {
+        const response = await fetch(`${API_URL}/api/get_history`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const history = await response.json();
+        displayHistory(history);
+        
+    } catch (error) {
+        console.error('Failed to load history:', error);
+        document.getElementById('historyContainer').innerHTML = `
+            <div class="empty-history">
+                <div class="empty-history-icon">⚠️</div>
+                <h3>Unable to load history</h3>
+                <p>Please ensure the backend server is running</p>
+            </div>
+        `;
+    }
+}
+
+function displayHistory(history) {
+    const container = document.getElementById('historyContainer');
+    
+    if (!history || history.length === 0) {
+        container.innerHTML = `
+            <div class="empty-history">
+                <div class="empty-history-icon">📋</div>
+                <h3>No assessments yet</h3>
+                <p>Take your first assessment to see results here</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = '';
+    
+    history.reverse().forEach((item, index) => {
+        const date = new Date(item.timestamp).toLocaleString();
+        const adhdProb = (item.results.adhd.probability * 100).toFixed(1);
+        const asdProb = (item.results.asd.probability * 100).toFixed(1);
+        const comorbidity = calculateComorbidity(item.results.adhd.probability, item.results.asd.probability);
+        
+        const historyItem = document.createElement('div');
+        historyItem.className = 'history-item';
+        historyItem.onclick = () => viewHistoryDetail(item);
+        
+        historyItem.innerHTML = `
+            <div class="history-header">
+                <div>
+                    <strong>${item.name}</strong> (${item.age} years, ${item.gender})
+                </div>
+                <div class="history-date">${date}</div>
+            </div>
+            <div class="history-results">
+                <div class="history-badge ${item.results.adhd.prediction === 'Positive' ? 'badge-positive' : 'badge-negative'}">
+                    ADHD: ${item.results.adhd.prediction} (${adhdProb}%)
+                </div>
+                <div class="history-badge ${item.results.asd.prediction === 'Positive' ? 'badge-positive' : 'badge-negative'}">
+                    ASD: ${item.results.asd.prediction} (${asdProb}%)
+                </div>
+                <div class="history-badge" style="background: #e0d4f7; color: #5a3d8a;">
+                    Comorbidity: ${comorbidity.toFixed(1)}%
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(historyItem);
+    });
+}
+
+function viewHistoryDetail(item) {
+    backendResults = item.results;
+    displayBackendResults(item.results);
+    switchTab('assessment');
+    showStep(4);
+}
+
+function resetAssessment() {
+    // Reset all forms
+    document.getElementById('userName').value = '';
+    document.getElementById('userAge').value = '';
+    document.getElementById('userGender').value = '';
+    document.getElementById('userRelation').value = '';
+    
+    // Reset AQ-10
+    document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+    document.getElementById('aq10Progress').style.width = '0%';
+    document.getElementById('aq10ProgressText').textContent = 'Question 0 of 10';
+    
+    // Reset CPT
+    document.getElementById('cptInstructions').style.display = 'block';
+    document.getElementById('cptTestArea').style.display = 'none';
+    document.getElementById('cptStartBtn').style.display = 'inline-block';
+    document.getElementById('cptNextBtn').style.display = 'none';
+    
+    backendResults = null;
+    showStep(1);
+}
+
+function downloadResults() {
+    if (!backendResults) {
+        alert('No results available to download');
+        return;
+    }
+    
+    const name = document.getElementById('userName').value || 'Unknown';
+    const date = new Date().toLocaleDateString();
+    
+    const raw = backendResults.raw_features || {};
+    const comorbidity = calculateComorbidity(backendResults.adhd.probability, backendResults.asd.probability);
+    
+    const report = `
+ADHD & ASD AI ASSESSMENT REPORT WITH SHAP EXPLAINABILITY
+=========================================================
+
+Patient Name: ${name}
+Assessment Date: ${date}
+Analysis Method: Machine Learning with SHAP Explanations
+
+═══════════════════════════════════════════════════════════
+
+PROBABILITY SUMMARY:
+ADHD Probability: ${(backendResults.adhd.probability * 100).toFixed(1)}%
+ASD Probability: ${(backendResults.asd.probability * 100).toFixed(1)}%
+Comorbidity Probability: ${comorbidity.toFixed(1)}%
+
+═══════════════════════════════════════════════════════════
+
+ADHD ASSESSMENT:
+Prediction: ${backendResults.adhd?.prediction || 'N/A'}
+Probability: ${(backendResults.adhd?.probability * 100 || 0).toFixed(1)}%
+Confidence: ${(backendResults.adhd?.confidence * 100 || 0).toFixed(1)}%
+
+SHAP FEATURE IMPORTANCE (Top 5):
+${(backendResults.adhd?.shap_explanation || []).slice(0, 5).map((item, i) => 
+    `${i + 1}. ${item.feature}: ${item.value?.toFixed(2) ?? '0.00'} → ${item.direction} risk (Impact: ${item.impact?.toFixed(4) ?? '0.0000'})`
+).join('\n') || 'No SHAP data'}
+
+═══════════════════════════════════════════════════════════
+
+ASD ASSESSMENT:
+Prediction: ${backendResults.asd?.prediction || 'N/A'}
+Probability: ${(backendResults.asd?.probability * 100 || 0).toFixed(1)}%
+Confidence: ${(backendResults.asd?.confidence * 100 || 0).toFixed(1)}%
+
+SHAP FEATURE IMPORTANCE (Top 5):
+${(backendResults.asd?.shap_explanation || []).slice(0, 5).map((item, i) => 
+    `${i + 1}. ${item.feature}: ${item.value?.toFixed(2) ?? '0.00'} → ${item.direction} risk (Impact: ${item.impact?.toFixed(4) ?? '0.0000'})`
+).join('\n') || 'No SHAP data'}
+
+═══════════════════════════════════════════════════════════
+
+COMORBIDITY ASSESSMENT:
+Probability: ${comorbidity.toFixed(1)}%
+${getComorbidityInterpretation(comorbidity, backendResults.adhd.prediction, backendResults.asd.prediction)}
+
+═══════════════════════════════════════════════════════════
+
+RAW FEATURES:
+Age: ${raw.age ?? 'N/A'}
+Gender: ${raw.gender ?? 'N/A'}
+AQ-10 Score: ${raw.aq10_score ?? 'N/A'}/10
+CPT Accuracy: ${(raw.cpt_accuracy ?? 0).toFixed(1)}%
+Average Reaction Time: ${(raw.cpt_avg_rt ?? 0).toFixed(0)}ms
+CPT Errors: ${raw.cpt_errors ?? 0}
+CPT Missed: ${raw.cpt_missed ?? 0}
+
+═══════════════════════════════════════════════════════════
+
+OVERALL INTERPRETATION:
+${document.getElementById('overallInterpretation').textContent || 'Not available'}
+
+═══════════════════════════════════════════════════════════
+
+ABOUT SHAP EXPLAINABILITY:
+SHAP (SHapley Additive exPlanations) values show how much each feature 
+contributed to the AI's prediction. Positive impacts increase the likelihood 
+of a positive diagnosis, while negative impacts decrease it.
+
+═══════════════════════════════════════════════════════════
+
+DISCLAIMER:
+This is an AI-assisted screening tool for educational and preliminary 
+assessment purposes only. It is NOT a clinical diagnosis.
+
+Generated by: SRM Valliammai Engineering College AI&DS Department
+Copyright © 2025 Dhivya S S, Deepasree R S, Tisha R
+    `;
+    
+    const blob = new Blob([report], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `AI_Assessment_Report_${name.replace(/\s+/g, '_')}_${date.replace(/\//g, '-')}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Assessment page loaded');
+    console.log('Backend API URL:', API_URL);
+});
+</script>
+</body>
+</html>

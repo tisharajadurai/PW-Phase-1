@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parameter-Based ADHD & ASD Classifier - SRM Valliammai</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
+            color: white; padding: 20px 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .header-center { flex: 1; text-align: center; }
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .logo-container {
+            width: 80px; height: 80px; background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2); padding: 8px;
+        }
+        .logo-container svg { width: 56px; height: 56px; }
+        .project-logo { background: white; padding: 10px 20px; border-radius: 8px; color: #0066cc; font-weight: bold; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .header-center h1 { font-size: 28px; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .header-center h2 { font-size: 14px; font-weight: normal; margin-bottom: 8px; }
+        .header-center h3 { font-size: 20px; margin-bottom: 5px; }
+        .header-center h4 { font-size: 16px; font-weight: normal; }
+        .project-name { background: white; padding: 8px 16px; border-radius: 8px; color: #0066cc; font-weight: bold; font-size: 13px; max-width: 180px; text-align: center; line-height: 1.3; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .college-logo { width: 70px; height: 70px; }
+
+        /* Top Navigation */
+        .top-nav {
+            background: #f8f9fa; padding: 10px 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { text-decoration: none; color: #666; font-size: 14px; transition: color 0.3s; }
+        .nav-links a:hover { color: #0066cc; }
+        .user-section { display: flex; align-items: center; gap: 15px; }
+        .user-avatar { width: 35px; height: 35px; border-radius: 50%; background: #0066cc; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px; }
+
+        /* Main Layout */
+        .main-container { display: flex; min-height: calc(100vh - 220px); }
+        .sidebar {
+            width: 250px; background: linear-gradient(180deg, #4a7dc9 0%, #2e5fa8 100%);
+            color: white; padding: 30px 0; position: relative;
+        }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .menu-item {
+            padding: 15px 30px; margin: 10px 20px; background: white; color: #0066cc;
+            border-radius: 0 25px 25px 0; cursor: pointer; font-weight: bold;
+            position: relative; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); transition: all 0.3s;
+        }
+        .menu-item:hover { background: #0066cc; color: white; transform: translateX(5px); }
+        .menu-item::after { content: "→"; position: absolute; right: 15px; font-size: 20px; opacity: 0.7; transition: all 0.3s; }
+        .menu-item:hover::after { color: white; right: 10px; opacity: 1; }
+        .help-section { position: absolute; bottom: 30px; left: 30px; color: white; font-size: 18px; font-weight: bold; cursor: pointer; }
+
+        /* Content */
+        .content { flex: 1; padding: 40px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 20px; }
+        .dashboard-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; }
+        .dashboard-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .dashboard-card h3 { color: #0066cc; margin-bottom: 15px; font-size: 20px; }
+        .dashboard-card p { color: #666; line-height: 1.6; }
+        .welcome-message { background: linear-gradient(135deg, #0066cc 0%, #004999 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; }
+        .welcome-message h2 { font-size: 28px; margin-bottom: 10px; }
+
+        /* Footer */
+        .footer { background: #f8f9fa; padding: 20px 40px; text-align: center; border-top: 1px solid #dee2e6; }
+        .footer p { color: #dc3545; font-size: 14px; }
+
+        /* Auth Modal */
+        .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
+        .auth-modal.active { display: flex; }
+        .auth-modal-content { background: white; width: 90%; max-width: 420px; border-radius: 16px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.3); position: relative; }
+        .auth-close { position: absolute; top: 15px; right: 15px; width: 30px; height: 30px; border: none; background: #f1f3f5; border-radius: 50%; cursor: pointer; font-size: 20px; color: #666; display: flex; align-items: center; justify-content: center; transition: all 0.3s; z-index: 10; }
+        .auth-close:hover { background: #dc3545; color: white; transform: rotate(90deg); }
+        .auth-tabs { display: flex; background: #f1f3f5; }
+        .auth-tab { flex: 1; padding: 16px; text-align: center; font-weight: 600; cursor: pointer; color: #666; transition: all 0.3s; }
+        .auth-tab.active { background: #0066cc; color: white; }
+        .auth-form { padding: 40px 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #333; font-weight: 500; }
+        .form-group input, .form-group select { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; transition: all 0.3s; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #0066cc; box-shadow: 0 0 0 3px rgba(0,102,204,0.1); }
+        .form-group input.error { border-color: #dc3545; }
+        .error-message { color: #dc3545; font-size: 13px; margin-top: 5px; display: none; }
+        .error-message.show { display: block; }
+        .password-toggle { position: relative; }
+        .password-toggle input { padding-right: 45px; }
+        .password-toggle button { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #666; cursor: pointer; font-size: 14px; padding: 5px 10px; }
+        .btn-primary { width: 100%; padding: 14px; background: #0066cc; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.3s; position: relative; }
+        .btn-primary:hover { background: #004999; }
+        .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+        .btn-primary.loading::after { content: ""; position: absolute; right: 15px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; border: 2px solid white; border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; }
+        @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+        .auth-footer { text-align: center; margin-top: 20px; color: #666; font-size: 14px; }
+        .auth-footer a { color: #0066cc; text-decoration: none; font-weight: 600; }
+        .auth-footer a:hover { text-decoration: underline; }
+        .password-strength { height: 4px; background: #e0e0e0; border-radius: 2px; margin-top: 8px; overflow: hidden; }
+        .password-strength-bar { height: 100%; transition: all 0.3s; width: 0; }
+        .password-strength-text { font-size: 12px; margin-top: 5px; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="logo-container">
+                <svg width="60" height="60" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="25" fill="#0066cc"/>
+                    <path d="M20 25 L25 20 L30 25 L30 15 L35 20 L40 15 M15 30 L45 30 M20 35 Q30 45 40 35" stroke="white" stroke-width="3" fill="none"/>
+                    <circle cx="22" cy="38" r="2" fill="white"/>
+                    <circle cx="38" cy="38" r="2" fill="white"/>
+                </svg>
+            </div>
+            <div class="project-logo">AI Diagnostics</div>
+        </div>
+        <div class="header-center">
+            <h1>SRM VALLIAMMAI ENGINEERING COLLEGE</h1>
+            <h2>(A Member of SRM Group of Institutions)</h2>
+            <h3>Department of Artificial Intelligence and Data Science</h3>
+            <h4>Parameter-Based ADHD & ASD Classifier</h4>
+        </div>
+        <div class="header-right">
+            <div class="project-name">ADHD & ASD Classifier</div>
+            <svg class="college-logo" viewBox="0 0 100 100">
+                <path d="M 50 5 L 15 20 L 15 55 Q 15 75 50 95 Q 85 75 85 55 L 85 20 Z" fill="#FFD700" stroke="#8B0000" stroke-width="3"/>
+                <path d="M 50 10 L 20 23 L 20 55 Q 20 73 50 90 Q 80 73 80 55 L 80 23 Z" fill="#FFEB3B"/>
+                <ellipse cx="50" cy="18" rx="12" ry="6" fill="#DC143C"/>
+                <text x="50" y="32" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">SRM</text>
+                <circle cx="38" cy="52" r="10" fill="#000000"/>
+                <circle cx="38" cy="52" r="6" fill="#FFFFFF"/>
+                <rect x="36" y="42" width="4" height="4" fill="#000000"/>
+                <rect x="36" y="58" width="4" height="4" fill="#000000"/>
+                <rect x="28" y="50" width="4" height="4" fill="#000000"/>
+                <rect x="44" y="50" width="4" height="4" fill="#000000"/>
+                <circle cx="58" cy="58" r="6" fill="#0066cc"/>
+                <circle cx="58" cy="58" r="3.5" fill="#FFFFFF"/>
+                <rect x="56.5" y="52" width="3" height="2" fill="#0066cc"/>
+                <rect x="56.5" y="62" width="3" height="2" fill="#0066cc"/>
+                <rect x="52" y="56.5" width="2" height="3" fill="#0066cc"/>
+                <rect x="62" y="56.5" width="2" height="3" fill="#0066cc"/>
+                <path d="M 35 60 L 35 75 Q 42 72 50 75 Q 58 72 65 75 L 65 60 Q 58 63 50 60 Q 42 63 35 60 Z" fill="#87CEEB" stroke="#000000" stroke-width="0.5"/>
+                <line x1="50" y1="60" x2="50" y2="75" stroke="#000000" stroke-width="1"/>
+                <line x1="38" y1="65" x2="48" y2="65" stroke="#0066cc" stroke-width="0.5"/>
+                <line x1="38" y1="69" x2="48" y2="69" stroke="#0066cc" stroke-width="0.5"/>
+                <line x1="52" y1="65" x2="62" y2="65" stroke="#0066cc" stroke-width="0.5"/>
+                <line x1="52" y1="69" x2="62" y2="69" stroke="#0066cc" stroke-width="0.5"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <div class="nav-links">
+            <a href="#" onclick="showDashboard()">Dashboard</a>
+            <a href="#" onclick="showReports()">Reports</a>
+            <a href="#" onclick="showResources()">Resources</a>
+            <a href="#" onclick="showSettings()">Settings</a>
+        </div>
+        <div class="user-section">
+            <span id="username-display">Guest</span>
+            <div class="user-avatar" id="user-avatar">G</div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <div class="menu-item" onclick="openAuthModal('login')">Login / Sign Up</div>
+            <div class="menu-item" onclick="navigateToAssessment()">ADHD/ASD Assessment</div>
+            <div class="menu-item" onclick="showClassificationHistory()">Classification History</div>
+            <div class="menu-item" onclick="showAbout()">About the Project</div>
+            <div class="menu-item" onclick="logout()" id="logoutBtn" style="display:none; background:#dc3545; color:white;">Logout</div>
+            <div class="help-section" onclick="alert('For support, contact project team')">Help</div>
+        </div>
+
+        <div class="content" id="mainContent">
+            <!-- Dashboard -->
+            <div id="dashboardSection">
+                <div class="welcome-message">
+                    <h2>Welcome to ADHD & ASD Classifier</h2>
+                    <p>Advanced AI-powered diagnostic tool for early detection and classification</p>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card"><h3>AI-Powered Classification</h3><p>Utilizes machine learning to analyze behavioral patterns with high accuracy.</p></div>
+                    <div class="dashboard-card"><h3>Parameter Analysis</h3><p>Evaluates attention, impulsivity, social cues, and cognitive performance.</p></div>
+                    <div class="dashboard-card"><h3>Early Detection</h3><p>Enables timely identification of developmental concerns.</p></div>
+                    <div class="dashboard-card"><h3>Progress Tracking</h3><p>Monitor changes over time with detailed history.</p></div>
+                    <div class="dashboard-card"><h3>Detailed Reports</h3><p>Generate comprehensive diagnostic reports instantly.</p></div>
+                    <div class="dashboard-card"><h3>Secure & Private</h3><p>All data encrypted and stored securely.</p></div>
+                </div>
+            </div>
+
+            <!-- Reports -->
+            <div id="reportsSection" style="display:none;">
+                <div class="welcome-message"><h2>Your Reports</h2></div>
+                <div style="background:white; padding:40px; border-radius:15px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                    <p>No reports generated yet.</p>
+                    <button class="btn-primary" onclick="navigateToAssessment()" style="margin-top:20px; width:auto; padding:12px 30px;">Start Assessment</button>
+                </div>
+            </div>
+
+            <!-- Resources -->
+            <div id="resourcesSection" style="display:none;">
+                <div class="welcome-message"><h2>Educational Resources</h2></div>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card"><h3>Understanding ADHD</h3><p>Symptoms, causes, and evidence-based strategies.</p></div>
+                    <div class="dashboard-card"><h3>Understanding ASD</h3><p>Early signs and support approaches.</p></div>
+                    <div class="dashboard-card"><h3>Parent Guidelines</h3><p>Practical tips for home and school support.</p></div>
+                    <div class="dashboard-card"><h3>Professional Help</h3><p>When and where to seek evaluation.</p></div>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div id="settingsSection" style="display:none;">
+                <div class="welcome-message"><h2>Settings</h2></div>
+                <div style="background:white; padding:40px; border-radius:15px; max-width:600px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                    <div class="form-group"><label>Display Name</label><input type="text" value="User"></div>
+                    <div class="form-group"><label>Notifications</label><select><option>Enabled</option><option>Disabled</option></select></div>
+                    <div class="form-group"><label>Language</label><select><option>English</option></select></div>
+                    <button class="btn-primary" style="width:auto; padding:12px 30px;">Save Changes</button>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div id="historySection" style="display:none;">
+                <div class="welcome-message"><h2>Assessment History</h2></div>
+                <div style="background:white; padding:40px; border-radius:15px; text-align:center; color:#666; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                    <p>No assessments completed yet.</p>
+                    <button class="btn-primary" onclick="navigateToAssessment()" style="margin-top:20px;">Take Assessment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Copyright © 2025 Dhivya S S, Deepasree R S, Tisha R<br>Department of AI&DS, SRM Valliammai Engineering College. All Rights Reserved.</p>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-content">
+            <button class="auth-close" onclick="closeAuthModal()">&times;</button>
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchTab('login')">Login</div>
+                <div class="auth-tab" onclick="switchTab('signup')">Sign Up</div>
+            </div>
+            <div class="auth-form">
+                <!-- Login Form -->
+                <div id="loginForm">
+                    <h2 style="text-align:center; color:#0066cc; margin-bottom:25px;">Welcome Back</h2>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="loginUsername" placeholder="Enter username">
+                        <div class="error-message" id="loginUsernameError">Username is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="password-toggle">
+                            <input type="password" id="loginPassword" placeholder="Enter password">
+                            <button type="button" onclick="togglePassword('loginPassword')">Show</button>
+                        </div>
+                        <div class="error-message" id="loginPasswordError">Password is required</div>
+                    </div>
+                    <button class="btn-primary" onclick="handleLogin()" id="loginBtn">Login</button>
+                    <div class="auth-footer">
+                        Don't have an account? <a href="#" onclick="switchTab('signup')">Sign Up</a>
+                    </div>
+                </div>
+
+                <!-- Signup Form -->
+                <div id="signupForm" style="display:none;">
+                    <h2 style="text-align:center; color:#0066cc; margin-bottom:25px;">Create Account</h2>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="signupName" placeholder="Your name">
+                        <div class="error-message" id="signupNameError">Name is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="signupUsername" placeholder="Choose username (min 3 characters)">
+                        <div class="error-message" id="signupUsernameError">Username must be at least 3 characters</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="signupEmail" placeholder="your@email.com">
+                        <div class="error-message" id="signupEmailError">Valid email is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="password-toggle">
+                            <input type="password" id="signupPassword" placeholder="Create password (min 6 characters)" oninput="checkPasswordStrength()">
+                            <button type="button" onclick="togglePassword('signupPassword')">Show</button>
+                        </div>
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                        </div>
+                        <div class="password-strength-text" id="passwordStrengthText"></div>
+                        <div class="error-message" id="signupPasswordError">Password must be at least 6 characters</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <div class="password-toggle">
+                            <input type="password" id="signupPasswordConfirm" placeholder="Confirm password">
+                            <button type="button" onclick="togglePassword('signupPasswordConfirm')">Show</button>
+                        </div>
+                        <div class="error-message" id="signupPasswordConfirmError">Passwords do not match</div>
+                    </div>
+                    <button class="btn-primary" onclick="handleSignup()" id="signupBtn">Sign Up</button>
+                    <div class="auth-footer">
+                        Already have an account? <a href="#" onclick="switchTab('login')">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "http://127.0.0.1:5000";
+
+        // Validation Functions
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validateUsername(username) {
+            return username.trim().length >= 3;
+        }
+
+        function validatePassword(password) {
+            return password.length >= 6;
+        }
+
+        function sanitizeInput(input) {
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
+        }
+
+        function showError(fieldId, errorId, message) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            field.classList.add('error');
+            error.textContent = message || error.textContent;
+            error.classList.add('show');
+        }
+
+        function hideError(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            field.classList.remove('error');
+            error.classList.remove('show');
+        }
+
+        function clearAllErrors() {
+            document.querySelectorAll('.error-message').forEach(e => e.classList.remove('show'));
+            document.querySelectorAll('input').forEach(i => i.classList.remove('error'));
+        }
+
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const button = field.nextElementSibling;
+            if (field.type === 'password') {
+                field.type = 'text';
+                button.textContent = 'Hide';
+            } else {
+                field.type = 'password';
+                button.textContent = 'Show';
+            }
+        }
+
+        function checkPasswordStrength() {
+            const password = document.getElementById('signupPassword').value;
+            const bar = document.getElementById('passwordStrengthBar');
+            const text = document.getElementById('passwordStrengthText');
+            
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+            const colors = ['#dc3545', '#fd7e14', '#ffc107', '#28a745', '#28a745'];
+            const widths = ['20%', '40%', '60%', '80%', '100%'];
+            const texts = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
+
+            if (password.length === 0) {
+                bar.style.width = '0';
+                text.textContent = '';
+                return;
+            }
+
+            bar.style.backgroundColor = colors[strength];
+            bar.style.width = widths[strength];
+            text.textContent = texts[strength];
+            text.style.color = colors[strength];
+        }
+
+        // Check Login Status
+        async function checkLoginStatus() {
+            try {
+                const res = await fetch(`${API_URL}/api/check_login`, { credentials: "include" });
+                const data = await res.json();
+                if (data.logged_in) {
+                    updateUIForLoggedInUser(data.username);
+                }
+            } catch (e) {
+                console.error("Backend connection error:", e);
+            }
+        }
+
+        function updateUIForLoggedInUser(username) {
+            document.getElementById('username-display').textContent = username;
+            document.getElementById('user-avatar').textContent = username[0].toUpperCase();
+            document.getElementById('logoutBtn').style.display = "block";
+        }
+
+        // Login Handler with Validation
+        async function handleLogin() {
+            clearAllErrors();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            let isValid = true;
+
+            // Validate username
+            if (!username) {
+                showError('loginUsername', 'loginUsernameError', 'Username is required');
+                isValid = false;
+            }
+
+            // Validate password
+            if (!password) {
+                showError('loginPassword', 'loginPasswordError', 'Password is required');
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            btn.classList.add('loading');
+            btn.textContent = 'Logging in...';
+
+            try {
+                const res = await fetch(`${API_URL}/api/login`, {
+                    method: "POST",
+                    credentials: "include",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        username: sanitizeInput(username), 
+                        password: password 
+                    })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    updateUIForLoggedInUser(data.username);
+                    closeAuthModal();
+                    alert(`Welcome back, ${data.username}!`);
+                    document.getElementById('loginUsername').value = '';
+                    document.getElementById('loginPassword').value = '';
+                } else {
+                    showError('loginPassword', 'loginPasswordError', data.error || 'Invalid credentials');
+                }
+            } catch (error) {
+                console.error("Login error:", error);
+                alert('Unable to connect to server. Please check your connection.');
+            } finally {
+                btn.disabled = false;
+                btn.classList.remove('loading');
+                btn.textContent = 'Login';
+            }
+        }
+
+        // Signup Handler with Full Validation
+        async function handleSignup() {
+            clearAllErrors();
+            
+            const name = document.getElementById('signupName').value.trim();
+            const username = document.getElementById('signupUsername').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+            
+            let isValid = true;
+
+            // Validate name
+            if (!name || name.length < 2) {
+                showError('signupName', 'signupNameError', 'Name must be at least 2 characters');
+                isValid = false;
+            }
+
+            // Validate username
+            if (!validateUsername(username)) {
+                showError('signupUsername', 'signupUsernameError', 'Username must be at least 3 characters');
+                isValid = false;
+            }
+
+            // Validate email
+            if (!validateEmail(email)) {
+                showError('signupEmail', 'signupEmailError', 'Please enter a valid email address');
+                isValid = false;
+            }
+
+            // Validate password
+            if (!validatePassword(password)) {
+                showError('signupPassword', 'signupPasswordError', 'Password must be at least 6 characters');
+                isValid = false;
+            }
+
+            // Validate password confirmation
+            if (password !== passwordConfirm) {
+                showError('signupPasswordConfirm', 'signupPasswordConfirmError', 'Passwords do not match');
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            const btn = document.getElementById('signupBtn');
+            btn.disabled = true;
+            btn.classList.add('loading');
+            btn.textContent = 'Creating Account...';
+
+            try {
+                const res = await fetch(`${API_URL}/api/register`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        name: sanitizeInput(name),
+                        username: sanitizeInput(username),
+                        email: sanitizeInput(email),
+                        password: password 
+                    })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    alert('Account created successfully! Logging you in...');
+                    // Clear signup form
+                    document.getElementById('signupName').value = '';
+                    document.getElementById('signupUsername').value = '';
+                    document.getElementById('signupEmail').value = '';
+                    document.getElementById('signupPassword').value = '';
+                    document.getElementById('signupPasswordConfirm').value = '';
+                    
+                    // Auto-login after signup
+                    document.getElementById('loginUsername').value = username;
+                    document.getElementById('loginPassword').value = password;
+                    switchTab('login');
+                    await handleLogin();
+                } else {
+                    if (data.error.includes('username')) {
+                        showError('signupUsername', 'signupUsernameError', data.error);
+                    } else if (data.error.includes('email')) {
+                        showError('signupEmail', 'signupEmailError', data.error);
+                    } else {
+                        alert(data.error || 'Signup failed');
+                    }
+                }
+            } catch (error) {
+                console.error("Signup error:", error);
+                alert('Unable to connect to server. Please check your connection.');
+            } finally {
+                btn.disabled = false;
+                btn.classList.remove('loading');
+                btn.textContent = 'Sign Up';
+            }
+        }
+
+        // Logout Handler
+        async function logout() {
+            try {
+                await fetch(`${API_URL}/api/logout`, { 
+                    method: "POST", 
+                    credentials: "include" 
+                });
+                document.getElementById('username-display').textContent = "Guest";
+                document.getElementById('user-avatar').textContent = "G";
+                document.getElementById('logoutBtn').style.display = "none";
+                alert("Logged out successfully");
+                showDashboard();
+            } catch (error) {
+                console.error("Logout error:", error);
+                alert('Logout failed. Please try again.');
+            }
+        }
+
+        // Navigation Functions
+        function showSection(id) {
+            document.querySelectorAll('#mainContent > div').forEach(s => s.style.display = "none");
+            document.getElementById(id).style.display = "block";
+        }
+
+        function showDashboard() { showSection('dashboardSection'); }
+        function showReports() { showSection('reportsSection'); }
+        function showResources() { showSection('resourcesSection'); }
+        function showSettings() { showSection('settingsSection'); }
+        function showClassificationHistory() { showSection('historySection'); }
+        
+        function navigateToAssessment() { 
+            // Check if user is logged in
+            const username = document.getElementById('username-display').textContent;
+            if (username === 'Guest') {
+                alert('Please login to access the assessment');
+                openAuthModal('login');
+                return;
+            }
+            window.location.href = 'assessment.html'; 
+        }
+        
+        function showAbout() { 
+            alert("Parameter-Based ADHD & ASD Classifier\n\nDeveloped by:\n• Dhivya S S\n• Deepasree R S\n• Tisha R\n\nDepartment of AI&DS\nSRM Valliammai Engineering College\n2025\n\nThis system uses advanced machine learning algorithms to analyze behavioral parameters for early detection of ADHD and ASD."); 
+        }
+
+        // Modal Functions
+        function openAuthModal(tab = 'login') {
+            clearAllErrors();
+            document.getElementById('authModal').classList.add('active');
+            switchTab(tab);
+            // Focus first input
+            setTimeout(() => {
+                if (tab === 'login') {
+                    document.getElementById('loginUsername').focus();
+                } else {
+                    document.getElementById('signupName').focus();
+                }
+            }, 100);
+        }
+
+        function closeAuthModal() { 
+            document.getElementById('authModal').classList.remove('active');
+            clearAllErrors();
+        }
+
+        function switchTab(tab) {
+            clearAllErrors();
+            document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+            document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+            document.querySelectorAll('.auth-tab').forEach((t, i) => {
+                t.classList.toggle('active', (tab === 'login' ? 0 : 1) === i);
+            });
+        }
+
+        // Event Listeners
+        document.getElementById('authModal').addEventListener('click', e => { 
+            if (e.target === e.currentTarget) closeAuthModal(); 
+        });
+
+        // Enter key support for forms
+        document.getElementById('loginPassword').addEventListener('keypress', e => {
+            if (e.key === 'Enter') handleLogin();
+        });
+
+        document.getElementById('signupPasswordConfirm').addEventListener('keypress', e => {
+            if (e.key === 'Enter') handleSignup();
+        });
+
+        // Real-time validation
+        document.getElementById('loginUsername').addEventListener('input', () => {
+            hideError('loginUsername', 'loginUsernameError');
+        });
+
+        document.getElementById('loginPassword').addEventListener('input', () => {
+            hideError('loginPassword', 'loginPasswordError');
+        });
+
+        document.getElementById('signupName').addEventListener('input', () => {
+            hideError('signupName', 'signupNameError');
+        });
+
+        document.getElementById('signupUsername').addEventListener('input', () => {
+            hideError('signupUsername', 'signupUsernameError');
+        });
+
+        document.getElementById('signupEmail').addEventListener('input', () => {
+            hideError('signupEmail', 'signupEmailError');
+        });
+
+        document.getElementById('signupPassword').addEventListener('input', () => {
+            hideError('signupPassword', 'signupPasswordError');
+        });
+
+        document.getElementById('signupPasswordConfirm').addEventListener('input', () => {
+            hideError('signupPasswordConfirm', 'signupPasswordConfirmError');
+        });
+
+        // Initialize
+        window.onload = checkLoginStatus;
+    </script>
+</body>
+</html>
