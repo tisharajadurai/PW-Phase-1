@@ -786,7 +786,8 @@ body {
 </div>
 
 <script>
-const API_URL = 'http://localhost:5000';
+const API_URL = window.location.origin; // Works on deployed server
+
 
 const aq10Questions = [
     "I often notice small sounds when others do not.",
@@ -816,20 +817,22 @@ let backendResults = null;
 let assessmentHistory = [];
 
 // Tab switching
-function switchTab(tab) {
+function switchTab(tab, elem) {
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    elem.classList.add('active');
     
     if (tab === 'assessment') {
-        event.target.classList.add('active');
         document.getElementById('assessmentSection').style.display = 'block';
         document.getElementById('historySection').style.display = 'none';
     } else if (tab === 'history') {
-        event.target.classList.add('active');
         document.getElementById('assessmentSection').style.display = 'none';
         document.getElementById('historySection').style.display = 'block';
         loadHistory();
     }
 }
+
+    
+
 
 // Initialize AQ-10 Questions
 function initializeAQ10() {
@@ -972,19 +975,21 @@ function handleCPTResponse(e) {
     if (!cptRunning || e.key !== ' ') return;
     e.preventDefault();
     
-    const reactionTime = Date.now() - cptStartTime;
     const stimulus = cptStimuli[cptCurrentStimulus];
     
-    if (stimulus === 'X' && cptStartTime > 0) {
+    if (stimulus === 'X') {
         cptCorrect++;
-        cptReactionTimes.push(reactionTime);
+        cptReactionTimes.push(Date.now() - cptStartTime);
         document.getElementById('correctCount').textContent = cptCorrect;
-        cptStartTime = 0;
-    } else if (stimulus !== 'X') {
+    } else {
         cptErrors++;
         document.getElementById('errorCount').textContent = cptErrors + cptMissed;
     }
+    
+    cptCurrentStimulus++;
+    runCPTTrial();
 }
+
 
 function startCPTTimer() {
     cptTimer = setInterval(() => {
