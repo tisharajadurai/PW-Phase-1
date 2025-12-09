@@ -244,7 +244,6 @@ from flask_cors import CORS
 import random
 import json
 from datetime import datetime
-from typing import Dict, Any
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -255,14 +254,18 @@ CORS(app, supports_credentials=True)  # Allows cookies from frontend
 USERS_FILE = "users.json"
 ASSESSMENTS_FILE = "assessments.json"
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Absolute path to current folder
+
 # ------------------- FRONTEND ROUTES -------------------
 @app.route("/")
+@app.route("/index.html")  # Optional, allows /index.html
 def serve_index():
-    return send_file("index.html")   # Must be in same folder as main.py
+    return send_file(os.path.join(BASE_DIR, "index.html"))
 
 @app.route("/assessment")
+@app.route("/assessment.html")  # Optional, allows /assessment.html
 def serve_assessment():
-    return send_file("assessment.html")  # Must also be in same folder
+    return send_file(os.path.join(BASE_DIR, "assessment.html"))
 
 # ------------------- Helper Functions -------------------
 def read_users():
@@ -294,8 +297,6 @@ def shap_mock():
     return data
 
 # ------------------- API ROUTES -------------------
-
-# Register
 @app.route('/api/register', methods=['POST'])
 def register_user():
     data = request.json
@@ -312,7 +313,6 @@ def register_user():
     write_users(users)
     return jsonify({"status": "registered", "username": username}), 200
 
-# Login
 @app.route('/api/login', methods=['POST'])
 def login_user():
     data = request.json
@@ -326,20 +326,17 @@ def login_user():
     session["username"] = username
     return jsonify({"status": "login_success", "username": username}), 200
 
-# Logout
 @app.route('/api/logout', methods=['POST'])
 def logout():
     session.pop("username", None)
     return jsonify({"status": "logged_out"}), 200
 
-# Check Login Status
 @app.route('/api/check_login', methods=['GET'])
 def check_login():
     if "username" in session:
         return jsonify({"logged_in": True, "username": session["username"]}), 200
     return jsonify({"logged_in": False}), 200
 
-# Assessment Prediction
 @app.route('/api/assess', methods=['POST'])
 def assess():
     try:
@@ -369,7 +366,6 @@ def assess():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Save Assessment
 @app.route('/api/save_assessment', methods=['POST'])
 def save_assessment():
     payload = request.json
@@ -381,7 +377,6 @@ def save_assessment():
         f.write("\n")
     return jsonify({"status": "saved"}), 200
 
-# Get History
 @app.route('/api/get_history', methods=['GET'])
 def get_history():
     if not os.path.exists(ASSESSMENTS_FILE):
@@ -397,6 +392,8 @@ def get_history():
 if __name__ == '__main__':
     print("Backend running at http://127.0.0.1:5000")
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
+
 
 
 
