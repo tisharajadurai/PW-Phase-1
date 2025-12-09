@@ -1,11 +1,1 @@
-{
-    "Tisha04": {
-        "password": "scrypt:32768:8:1$XDkxcmSc1xUayY1v$f0ce03d0d57e97ef981f921ca37cf7c8656f5869d602b26afb6d8151c8cc89eacda2c189f73ebd19fd49fb49f5477747c72a809c2f217346ad7e12589c0dd404"
-    },
-    "Tisha05": {
-        "password": "scrypt:32768:8:1$IympV0LsvAYYyLDt$6ab521eee54f7c54c819c7f3fa6032edfc3b19ebf88588d29ccd1eea6d10cd2119e698f88b55830db7771648cd3c4c1b1abff9e2ea674e31fd04e04f7efc5b48"
-    },
-    "Dhivya": {
-        "password": "scrypt:32768:8:1$Hqcigk4LCvO0RJZG$99a957296f8dd1a35f68e4d055059cd1f75e7d14921d56592622c54199ec6c8b208987f96c5826087d27063c5825575b4863ee4d08d97f7a9463701215429aa9"
-    }
-}
+
