@@ -238,9 +238,8 @@
 #     app.run(host="0.0.0.0", port=5000, debug=True)
 
 
-
 # main.py
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, send_file
 from flask_cors import CORS
 import random
 import json
@@ -255,6 +254,15 @@ CORS(app, supports_credentials=True)  # Allows cookies from frontend
 
 USERS_FILE = "users.json"
 ASSESSMENTS_FILE = "assessments.json"
+
+# ------------------- FRONTEND ROUTES -------------------
+@app.route("/")
+def serve_index():
+    return send_file("index.html")   # Must be in same folder as main.py
+
+@app.route("/assessment")
+def serve_assessment():
+    return send_file("assessment.html")  # Must also be in same folder
 
 # ------------------- Helper Functions -------------------
 def read_users():
@@ -271,18 +279,21 @@ def write_users(data):
         json.dump(data, f, indent=4)
 
 def shap_mock():
-    feats = ["Attention Variability", "Reaction Time", "AQ-10 Score", "Task Accuracy", "Impulsivity Index", "Consistency"]
+    feats = ["Attention Variability", "Reaction Time", "AQ-10 Score", 
+             "Task Accuracy", "Impulsivity Index", "Consistency"]
     data = []
     for f in feats:
         impact = round(random.uniform(-1, 1), 2)
-        data.append({"feature": f, "impact": impact, "direction": "Increased" if impact > 0 else "Decreased", "value": round(random.uniform(0, 1), 2)})
+        data.append({
+            "feature": f,
+            "impact": impact,
+            "direction": "Increased" if impact > 0 else "Decreased",
+            "value": round(random.uniform(0, 1), 2)
+        })
     data.sort(key=lambda x: abs(x["impact"]), reverse=True)
     return data
 
-# ------------------- Routes -------------------
-@app.route('/')
-def home():
-    return jsonify({"message": "ADHD & ASD Classifier Backend Running", "status": "OK"})
+# ------------------- API ROUTES -------------------
 
 # Register
 @app.route('/api/register', methods=['POST'])
@@ -343,8 +354,16 @@ def assess():
         asd_prob = round(random.uniform(0.1, 0.95), 2)
 
         return jsonify({
-            "adhd": {"prediction": "Positive" if adhd_prob > 0.5 else "Negative", "probability": adhd_prob, "shap_explanation": shap_mock()},
-            "asd": {"prediction": "Positive" if asd_prob > 0.5 else "Negative", "probability": asd_prob, "shap_explanation": shap_mock()},
+            "adhd": {
+                "prediction": "Positive" if adhd_prob > 0.5 else "Negative",
+                "probability": adhd_prob,
+                "shap_explanation": shap_mock()
+            },
+            "asd": {
+                "prediction": "Positive" if asd_prob > 0.5 else "Negative",
+                "probability": asd_prob,
+                "shap_explanation": shap_mock()
+            },
             "raw_features": {"aq10_score": aq10_score, **cpt_data}
         })
     except Exception as e:
@@ -374,8 +393,11 @@ def get_history():
                 records.append(json.loads(line))
     return jsonify(records)
 
+# ------------------- RUN APP -------------------
 if __name__ == '__main__':
     print("Backend running at http://127.0.0.1:5000")
-
-    
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
+
+
+
