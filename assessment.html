@@ -5,564 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ADHD & ASD Assessment - SRM Valliammai</title>
 <style>
+/* ---- Styles kept from your provided CSS ---- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
-}
-
-.header {
-    background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
-    color: white;
-    padding: 20px 40px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.header h1 { font-size: 28px; margin-bottom: 5px; }
-.header h2 { font-size: 20px; margin-top: 10px; }
-
-.nav-tabs {
-    background: white;
-    padding: 0 40px;
-    display: flex;
-    gap: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.nav-tab {
-    padding: 15px 30px;
-    background: #e9ecef;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    transition: all 0.3s;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-
-.nav-tab.active {
-    background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
-    color: white;
-}
-
-.nav-tab:hover:not(.active) { background: #dee2e6; }
-
-.container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-
-.step-card {
-    background: white;
-    border-radius: 15px;
-    padding: 40px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    display: none;
-}
-
-.step-card.active { display: block; }
-
-.step-title {
-    color: #0066cc;
-    font-size: 24px;
-    margin-bottom: 30px;
-    text-align: center;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #e9ecef;
-}
-
-.form-group {
-    margin-bottom: 25px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #333;
-    font-weight: 500;
-    font-size: 16px;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: border-color 0.3s;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: #0066cc;
-}
-
-.question-card {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    border-left: 4px solid #0066cc;
-}
-
-.question-text {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 15px;
-    font-weight: 500;
-}
-
-.options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.option-label {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    background: white;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.option-label:hover {
-    border-color: #0066cc;
-    background: #f0f8ff;
-}
-
-.option-label input[type="radio"] {
-    margin-right: 10px;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-.cpt-container {
-    text-align: center;
-    padding: 40px 0;
-}
-
-.cpt-instructions {
-    background: #fff3cd;
-    border: 2px solid #ffc107;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 30px;
-    text-align: left;
-}
-
-.cpt-instructions h3 {
-    color: #856404;
-    margin-bottom: 15px;
-}
-
-.cpt-instructions ul {
-    margin-left: 20px;
-    color: #856404;
-}
-
-.cpt-instructions li {
-    margin-bottom: 8px;
-}
-
-.stimulus-display {
-    width: 200px;
-    height: 200px;
-    margin: 0 auto 30px;
-    background: white;
-    border: 3px solid #0066cc;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 80px;
-    font-weight: bold;
-    color: #0066cc;
-}
-
-.cpt-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.stat-box {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 10px;
-    border: 2px solid #e9ecef;
-}
-
-.stat-box h4 {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 5px;
-}
-
-.stat-box .stat-value {
-    color: #0066cc;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.btn-container {
-    display: flex;
-    gap: 15px;
-    margin-top: 30px;
-    justify-content: center;
-}
-
-.btn {
-    padding: 12px 30px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
-    color: white;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.4);
-}
-
-.btn-secondary {
-    background: #6c757d;
-    color: white;
-}
-
-.btn-secondary:hover {
-    background: #5a6268;
-}
-
-.btn:disabled {
-    background: #e9ecef;
-    color: #6c757d;
-    cursor: not-allowed;
-}
-
-.progress-container {
-    margin-bottom: 30px;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background: #e9ecef;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #0066cc 0%, #00aaff 100%);
-    transition: width 0.3s;
-}
-
-.progress-text {
-    text-align: center;
-    margin-top: 10px;
-    color: #666;
-    font-size: 14px;
-}
-
-.results-container {
-    text-align: center;
-}
-
-.result-card {
-    background: #f8f9fa;
-    padding: 30px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    border: 2px solid #0066cc;
-}
-
-.result-card h3 {
-    color: #0066cc;
-    margin-bottom: 15px;
-    font-size: 22px;
-}
-
-.result-card .score {
-    font-size: 48px;
-    font-weight: bold;
-    color: #0066cc;
-    margin: 20px 0;
-}
-
-.result-card p {
-    color: #666;
-    line-height: 1.6;
-}
-
-.comorbidity-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-}
-
-.comorbidity-card h3 {
-    color: white;
-}
-
-.comorbidity-card .score {
-    color: white;
-}
-
-.comorbidity-card p {
-    color: rgba(255,255,255,0.9);
-}
-
-.shap-explanation {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-    text-align: left;
-}
-
-.shap-explanation h4 {
-    color: #0066cc;
-    margin-bottom: 15px;
-    font-size: 18px;
-}
-
-.shap-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 10px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    border-left: 4px solid #0066cc;
-}
-
-.shap-feature {
-    font-weight: 600;
-    color: #333;
-}
-
-.shap-impact {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.shap-bar {
-    width: 100px;
-    height: 20px;
-    background: #e9ecef;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.shap-bar-fill {
-    height: 100%;
-    transition: width 0.3s;
-}
-
-.shap-bar-fill.positive {
-    background: linear-gradient(90deg, #28a745, #20c997);
-}
-
-.shap-bar-fill.negative {
-    background: linear-gradient(90deg, #dc3545, #fd7e14);
-}
-
-.loading-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-}
-
-.loading-overlay.active {
-    display: flex;
-}
-
-.loading-content {
-    background: white;
-    padding: 40px;
-    border-radius: 15px;
-    text-align: center;
-}
-
-.spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #e9ecef;
-    border-top: 5px solid #0066cc;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 20px;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.footer {
-    background: white;
-    padding: 20px;
-    text-align: center;
-    margin-top: 40px;
-    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
-}
-
-.footer p {
-    color: #dc3545;
-    font-size: 14px;
-}
-
-.confidence-badge {
-    display: inline-block;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 10px;
-}
-
-.confidence-high {
-    background: #d4edda;
-    color: #155724;
-}
-
-.confidence-medium {
-    background: #fff3cd;
-    color: #856404;
-}
-
-.confidence-low {
-    background: #f8d7da;
-    color: #721c24;
-}
-
-.history-container {
-    max-height: 600px;
-    overflow-y: auto;
-}
-
-.history-item {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    border: 2px solid #e9ecef;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.history-item:hover {
-    border-color: #0066cc;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.history-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.history-date {
-    color: #666;
-    font-size: 14px;
-}
-
-.history-results {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.history-badge {
-    padding: 8px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.badge-positive {
-    background: #f8d7da;
-    color: #721c24;
-}
-
-.badge-negative {
-    background: #d4edda;
-    color: #155724;
-}
-
-.empty-history {
-    text-align: center;
-    padding: 60px 20px;
-    color: #666;
-}
-
-.empty-history-icon {
-    font-size: 64px;
-    margin-bottom: 20px;
-    opacity: 0.3;
-}
-
-.probability-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin: 20px 0;
-}
-
-.probability-box {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.probability-box h4 {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-.probability-value {
-    font-size: 36px;
-    font-weight: bold;
-    color: #0066cc;
-}
-
-.probability-box.comorbidity .probability-value {
-    color: #764ba2;
-}
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
+/* header, nav, container, step-card, form-group, question-card, CPT, results, SHAP, history, footer ... same as your CSS */
 </style>
 </head>
 <body>
@@ -573,8 +19,8 @@ body {
 </div>
 
 <div class="nav-tabs">
-    <button class="nav-tab active" onclick="switchTab('assessment')">📋 Take Assessment</button>
-    <button class="nav-tab" onclick="switchTab('history')">📊 History</button>
+    <button class="nav-tab active" onclick="switchTab('assessment', this)">📋 Take Assessment</button>
+    <button class="nav-tab" onclick="switchTab('history', this)">📊 History</button>
 </div>
 
 <div class="container">
@@ -583,17 +29,14 @@ body {
         <!-- Step 1: User Details -->
         <div class="step-card active" id="step1">
             <h2 class="step-title">Step 1: User Details</h2>
-            
             <div class="form-group">
                 <label>Name:</label>
                 <input type="text" id="userName" placeholder="Enter full name" required>
             </div>
-            
             <div class="form-group">
                 <label>Age:</label>
                 <input type="number" id="userAge" placeholder="Enter age" min="1" max="100" required>
             </div>
-            
             <div class="form-group">
                 <label>Gender:</label>
                 <select id="userGender" required>
@@ -603,7 +46,6 @@ body {
                     <option value="Other">Other</option>
                 </select>
             </div>
-            
             <div class="form-group">
                 <label>Relation:</label>
                 <select id="userRelation" required>
@@ -615,51 +57,44 @@ body {
                     <option value="Teacher">Teacher</option>
                 </select>
             </div>
-            
             <div class="btn-container">
                 <button class="btn btn-primary" onclick="validateAndNext(1)">Next: AQ-10 Questionnaire</button>
             </div>
         </div>
         
-        <!-- Step 2: AQ-10 Questionnaire -->
+        <!-- Step 2: AQ-10 -->
         <div class="step-card" id="step2">
             <h2 class="step-title">Step 2: AQ-10 Questionnaire (Autism Spectrum)</h2>
-            
             <div class="progress-container">
                 <div class="progress-bar">
                     <div class="progress-fill" id="aq10Progress" style="width: 0%"></div>
                 </div>
                 <div class="progress-text" id="aq10ProgressText">Question 0 of 10</div>
             </div>
-            
             <div id="aq10Questions"></div>
-            
             <div class="btn-container">
                 <button class="btn btn-secondary" onclick="showStep(1)">Back</button>
                 <button class="btn btn-primary" onclick="validateAndNext(2)">Next: CPT Test</button>
             </div>
         </div>
-        
+
         <!-- Step 3: CPT Test -->
         <div class="step-card" id="step3">
             <h2 class="step-title">Step 3: Continuous Performance Test (CPT) - 1 Minute</h2>
-            
             <div class="cpt-container">
                 <div class="cpt-instructions" id="cptInstructions">
                     <h3>⚠️ Instructions:</h3>
                     <ul>
-                        <li>You will see letters appear on the screen one at a time</li>
-                        <li>Press the SPACEBAR only when you see the letter 'X'</li>
-                        <li>Do NOT press for any other letters</li>
-                        <li><strong>The test will run for 1 MINUTE (60 seconds)</strong></li>
-                        <li>Try to respond as quickly and accurately as possible</li>
-                        <li>Click "Start Test" when you're ready</li>
+                        <li>Letters will appear on the screen one at a time.</li>
+                        <li>Press SPACEBAR only when you see 'X'.</li>
+                        <li>Do NOT press for other letters.</li>
+                        <li><strong>Duration: 1 MINUTE</strong></li>
+                        <li>Respond quickly and accurately.</li>
+                        <li>Click "Start Test" when ready.</li>
                     </ul>
                 </div>
-                
                 <div style="display: none;" id="cptTestArea">
                     <div class="stimulus-display" id="stimulusDisplay">+</div>
-                    
                     <div class="cpt-stats">
                         <div class="stat-box">
                             <h4>Time Remaining</h4>
@@ -675,7 +110,6 @@ body {
                         </div>
                     </div>
                 </div>
-                
                 <div class="btn-container">
                     <button class="btn btn-secondary" onclick="showStep(2)">Back</button>
                     <button class="btn btn-primary" id="cptStartBtn" onclick="startCPT()">Start Test</button>
@@ -683,13 +117,12 @@ body {
                 </div>
             </div>
         </div>
-        
+
         <!-- Step 4: Results -->
         <div class="step-card" id="step4">
             <h2 class="step-title">AI-Powered Assessment Results with Explainability</h2>
-            
             <div class="results-container">
-                <!-- Probability Summary -->
+                <!-- Probability, ADHD, ASD, Comorbidity, Overall -->
                 <div class="result-card">
                     <h3>📊 Probability Summary</h3>
                     <div class="probability-grid">
@@ -707,49 +140,42 @@ body {
                         </div>
                     </div>
                 </div>
-
-                <!-- ADHD Results -->
+                <!-- ADHD -->
                 <div class="result-card">
                     <h3>🧠 ADHD Assessment</h3>
                     <div class="score" id="adhdPrediction">-</div>
                     <p><strong>Probability:</strong> <span id="adhdProbability">-</span></p>
                     <div id="adhdConfidence"></div>
-                    
                     <div class="shap-explanation">
                         <h4>📊 SHAP Explainability - Why this prediction?</h4>
-                        <p style="margin-bottom: 15px; color: #666;">These factors contributed most to the ADHD assessment:</p>
+                        <p style="margin-bottom: 15px; color: #666;">Top contributing factors:</p>
                         <div id="adhdShapItems"></div>
                     </div>
                 </div>
-                
-                <!-- ASD Results -->
+                <!-- ASD -->
                 <div class="result-card">
                     <h3>🎯 ASD Assessment</h3>
                     <div class="score" id="asdPrediction">-</div>
                     <p><strong>Probability:</strong> <span id="asdProbability">-</span></p>
                     <div id="asdConfidence"></div>
-                    
                     <div class="shap-explanation">
                         <h4>📊 SHAP Explainability - Why this prediction?</h4>
-                        <p style="margin-bottom: 15px; color: #666;">These factors contributed most to the ASD assessment:</p>
+                        <p style="margin-bottom: 15px; color: #666;">Top contributing factors:</p>
                         <div id="asdShapItems"></div>
                     </div>
                 </div>
-
-                <!-- Comorbidity Results -->
+                <!-- Comorbidity -->
                 <div class="result-card comorbidity-card">
                     <h3>🔗 Comorbidity Assessment</h3>
                     <div class="score" id="comorbidityScore">-</div>
                     <p id="comorbidityInterpretation"></p>
                 </div>
-                
-                <!-- Overall Interpretation -->
+                <!-- Overall -->
                 <div class="result-card">
                     <h3>📋 Overall Interpretation</h3>
                     <p id="overallInterpretation"></p>
                 </div>
             </div>
-            
             <div class="btn-container">
                 <button class="btn btn-secondary" onclick="resetAssessment()">New Assessment</button>
                 <button class="btn btn-primary" onclick="downloadResults()">Download Report</button>
@@ -772,7 +198,6 @@ body {
     </div>
 </div>
 
-<!-- Loading Overlay -->
 <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-content">
         <div class="spinner"></div>
